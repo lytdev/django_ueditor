@@ -2,6 +2,10 @@
 
 Ueditor HTML编辑器是百度开源的在线HTML编辑器,功能非常强大，像表格可以直接拖动调整单元格大小等。
 
+> 由于本人经历有限以及天朝墙的原因,项目暂时在oschina进行更新,使用oschina向GitHub进行推送,所以项目最新的代码应该在oschina上
+
+oschina地址:
+
 更新历史
 ============
 ###[2017-6-3]     Ver:2.1.0
@@ -319,4 +323,6 @@ class UEditorTestModelForm(UEditorModelForm):
 * 本程序安装包里面已经包括了Ueditor，不需要再额外安装。
 * 别忘记了运行collectstatic命令，该命令可以将ueditor的所有文件复制到{{STATIC_ROOT}}文件夹里面
 * Django默认开启了CSRF中间件，因此如果你的表单没有加入{% csrf_token %}，那么当您上传文件和图片时会失败
+
+# 欢迎大家git进行修改提交
    

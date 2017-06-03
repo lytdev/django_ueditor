@@ -4,7 +4,7 @@ Ueditor HTML编辑器是百度开源的在线HTML编辑器,功能非常强大，
 
 > 由于本人经历有限以及天朝墙的原因,项目暂时在oschina进行更新,使用oschina向GitHub进行推送,所以项目最新的代码应该在oschina上
 
-oschina地址:
+oschina地址:[django_ueditor](https://git.oschina.net/liuyuantao/django_ueditor.git)
 
 更新历史
 ============

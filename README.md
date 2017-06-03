@@ -34,7 +34,7 @@ oschina地址:[django_ueditor](https://git.oschina.net/liuyuantao/django_ueditor
 
 ###[2014-6-25]
 
-由于Ueditor从1.4版本开始，API发生了非常大的改动和不兼容，导致DjangoUeditor上一个版本的升级后上传功能不能用等，因此
+由于Ueditor从1.4版本开始，API发生了非常大的改动和不兼容，导致django_ueditor上一个版本的升级后上传功能不能用等，因此
 本次重新设计了API，后端上传的代码几乎完全重写了。
 
 * 更新到1.5.143，即版本号为1.5，使用了Ueditor 1.4.3版本。
@@ -72,8 +72,8 @@ oschina地址:[django_ueditor](https://git.oschina.net/liuyuantao/django_ueditor
 	2. 将项目中的django_ueditor复制到你的应用中即可
 
    		
-## 2、在Django中安装DjangoUeditor
-     在INSTALL_APPS里面增加DjangoUeditor app，如下：
+## 2、在Django中安装django_ueditor
+     在INSTALL_APPS里面增加django_ueditor app，如下：
 		```
 		INSTALLED_APPS = (
 			#........
@@ -181,7 +181,7 @@ command是一个UEditorCommand的实例列表。如果你要在Ueditor的工具�
 
 * *event_handler* : 用来为Ueditor实例绑定事件侦听，比较当选择区改变时将按钮状态置为禁止。
 ```
-    from DjangoUeditor.commands import UEditorEventHandler
+    from django_ueditor.commands import UEditorEventHandler
     class myEventHander(UEditorEventHandler):
         def on_selectionchange(self):
             return """

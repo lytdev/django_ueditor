@@ -62,13 +62,13 @@ Ueditor HTML编辑器是百度开源的在线HTML编辑器,功能非常强大，
 
 使用方法
 ============
-##1、安装方法
+## 1、安装方法
 
 	1. git clone https://github.com/lytdev/django_ueditor.git
 	2. 将项目中的django_ueditor复制到你的应用中即可
 
    		
-##2、在Django中安装DjangoUeditor
+## 2、在Django中安装DjangoUeditor
      在INSTALL_APPS里面增加DjangoUeditor app，如下：
 		```
 		INSTALLED_APPS = (
@@ -76,11 +76,11 @@ Ueditor HTML编辑器是百度开源的在线HTML编辑器,功能非常强大，
     		'django_ueditor',
 		)
 		```
-##3、配置urls
+## 3、配置urls
 	```
 	url(r'^ueditor/',include('django_ueditor.urls' )),
 	```
-##4、在models中的使用
+## 4、在models中的使用
 	```
 	from django_ueditor.models import UEditorField
 	class Blog(models.Model):
@@ -138,60 +138,62 @@ Ueditor HTML编辑器是百度开源的在线HTML编辑器,功能非常强大，
                                         ])
         
 ```
-以上代码可以会Ueditor增加一个按钮和一个下拉框。command是一个UEditorCommand的实例列表。如果你要在Ueditor的工具栏上增加一个
+以上代码可以会Ueditor增加一个按钮和一个下拉框。
+
+command是一个UEditorCommand的实例列表。如果你要在Ueditor的工具栏上增加一个
 
 自定义按钮，方法如下：
 ```        
-        from DjangoUeditor.commands import UEditorButtonCommand,UEditorComboCommand
-        #定义自己的按钮命令类
-        class myBtn(UEditorButtonCommand):
-            def onClick(self):
+    from django_ueditor.commands import UEditorButtonCommand,UEditorComboCommand
+    #定义自己的按钮命令类
+    class myBtn(UEditorButtonCommand):
+        def onClick(self):
+            return u"""
+                alert("爽!");       //这里可以写自己的js代码
+                editor.execCommand(uiName);
+            """
+        def onExecuteAjaxCommand(self,state):
+        """  默认在command代码里面加入一段ajax代码，如果指定了ajax_url和重载本方法，则在单点按钮后
+         会调用ajax_url.本方法重载是可选的。
+         """
+            if state=="success":
                 return u"""
-                    alert("爽!");       //这里可以写自己的js代码
-                    editor.execCommand(uiName);
+                    alert("后面比较爽!"+xhr.responseText);//这里可以写ajax成功调用的js代码
                 """
-            def onExecuteAjaxCommand(self,state):
-            """  默认在command代码里面加入一段ajax代码，如果指定了ajax_url和重载本方法，则在单点按钮后
-             会调用ajax_url.本方法重载是可选的。
-             """
-                if state=="success":
-                    return u"""
-                        alert("后面比较爽!"+xhr.responseText);//这里可以写ajax成功调用的js代码
-                    """
-                if state=="error":
-                    return u"""
-                        alert("讨厌，摸哪里去了！"+xhr.responseText);//这里可以写ajax错误调用的js代码
-                    """
-        
-        UEditorButtonCommand有初始化参数:
-                uiName:按钮名称
-                title:按钮提示信息
-                index:按钮显示的位置索引
-                ajax_url：单击时调用的ajax url
-                
-        UEditorComboCommand可以在Ueditor上增加一个下拉框
-        UEditorDialogCommand可以在Ueditor上增加一个对话框，一般与UEditorButtonCommand配合使用。暂未实现
+            if state=="error":
+                return u"""
+                    alert("讨厌，摸哪里去了！"+xhr.responseText);//这里可以写ajax错误调用的js代码
+                """
+    
+    UEditorButtonCommand有初始化参数:
+            uiName:按钮名称
+            title:按钮提示信息
+            index:按钮显示的位置索引
+            ajax_url：单击时调用的ajax url
+            
+    UEditorComboCommand可以在Ueditor上增加一个下拉框
+    UEditorDialogCommand可以在Ueditor上增加一个对话框，一般与UEditorButtonCommand配合使用。暂未实现
 ```
 
 * *event_handler* : 用来为Ueditor实例绑定事件侦听，比较当选择区改变时将按钮状态置为禁止。
 ```
-        from DjangoUeditor.commands import UEditorEventHandler
-        class myEventHander(UEditorEventHandler):
-            def on_selectionchange(self):
-                return """
-                    function getButton(btnName){
-                        var items=%(editor)s.ui.toolbars[0].items;
-                        for(item in items){
-                            if(items[item].name==btnName){
-                                return items[item];
-                            }
+    from DjangoUeditor.commands import UEditorEventHandler
+    class myEventHander(UEditorEventHandler):
+        def on_selectionchange(self):
+            return """
+                function getButton(btnName){
+                    var items=%(editor)s.ui.toolbars[0].items;
+                    for(item in items){
+                        if(items[item].name==btnName){
+                            return items[item];
                         }
                     }
-                    var btn=getButton("mybtn1");
-                    var selRanage=id_Description.selection.getRange()
-                    btn.setDisabled(selRanage.startOffset == selRanage.endOffset);
-        
-                """
+                }
+                var btn=getButton("mybtn1");
+                var selRanage=id_Description.selection.getRange()
+                btn.setDisabled(selRanage.startOffset == selRanage.endOffset);
+    
+            """
 ```
 
 > 我们可以继承UEditorEventHandler创建自己的事件侦听类，例如上面myEventHander，然后在myEventHander中
